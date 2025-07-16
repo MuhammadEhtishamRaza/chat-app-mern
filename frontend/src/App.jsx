@@ -1,7 +1,8 @@
+import ChatPage from "./pages/ChatPage"
 
 const App = () => {
   return (
-    <div>App</div>
+    <div><ChatPage /></div>
   )
 }
 
