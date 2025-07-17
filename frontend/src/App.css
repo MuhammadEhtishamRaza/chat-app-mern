@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+.inherit-height {
+  @apply h-full;
+  height: inherit;
+}

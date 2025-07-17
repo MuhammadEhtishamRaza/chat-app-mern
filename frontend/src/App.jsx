@@ -1,8 +1,9 @@
 import ChatPage from "./pages/ChatPage"
+import "./App.css"
 
 const App = () => {
   return (
-    <div><ChatPage /></div>
+    <><ChatPage /></>
   )
 }
 
