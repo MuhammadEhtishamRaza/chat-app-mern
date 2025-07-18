@@ -2,9 +2,9 @@ import image from "../../assets/image.svg"
 
 const SideBar = () => {
     return (
-        <div className="overflow-y-auto inherit-height">
+        <div className="overflow-y-auto inherit-height [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300">
             <ul>
-                <li>
+                {/* <li>
                     <div className="flex justify-items-start items-center p-1 cursor-pointer border-b-[1px] border-b-gray-400">
                         <img src={image} alt="Profile Image" width={"40px"} height={"40px"} />
                         <div className="ml-5">
@@ -57,7 +57,7 @@ const SideBar = () => {
                             <p className="text-xs text-gray-400">Last Message</p>
                         </div>
                     </div>
-                </li >
+                </li > */}
                 <li>
                     <div className="flex justify-items-start items-center p-1 cursor-pointer border-b-[1px] border-b-gray-400">
                         <img src={image} alt="Profile Image" width={"40px"} height={"40px"} />
