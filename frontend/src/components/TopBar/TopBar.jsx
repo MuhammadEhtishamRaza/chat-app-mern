@@ -6,7 +6,7 @@ import image from "../../assets/image.svg"
 const TopBar = () => {
     return (
         <div className="col-start-1 row-span-1">
-            <div className="flex justify-between items-center bg-blue-200 p-2">
+            <div className="flex justify-between items-center p-2 border-b-2 border-blue-700 rounded-lg">
                 <div className="flex justify-between items-center">
                     <a href="#" className="ml-5">
                         <img src={image} alt="Profile Image" width={"40px"} height={"40px"} />
