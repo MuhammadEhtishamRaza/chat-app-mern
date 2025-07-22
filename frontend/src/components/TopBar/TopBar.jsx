@@ -6,7 +6,7 @@ import image from "../../assets/image.svg"
 const TopBar = () => {
     return (
         <div className="col-start-1 row-span-1">
-            <div className="flex justify-between items-center px-6 py-3 bg-gradient-to-r from-blue-100 to-blue-200 border-b-2 border-blue-700 rounded-t-2xl shadow">
+            <div className="flex justify-between items-center px-6 py-3 bg-gradient-to-r from-blue-100 to-blue-200 border-b-2 border-blue-700 shadow">
                 <div className="flex items-center">
                     <a href="#" className="mr-4">
                         <img src={image} alt="Profile" width={48} height={48} className="rounded-full border-2 border-blue-400 shadow" />
