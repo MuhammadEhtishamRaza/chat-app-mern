@@ -1,128 +1,35 @@
 import image from "../../assets/image.svg"
 
+const users = [
+    { name: "Ali", last: "Hey, how are you?" },
+    { name: "Hamza", last: "Let's meet at 5pm." },
+    { name: "Ahmed", last: "Sent the files." },
+    { name: "Yasir", last: "See you soon!" },
+    { name: "Sara", last: "Typing..." },
+    { name: "Ayesha", last: "Good night!" },
+    { name: "Bilal", last: "Check this out!" },
+];
+
 const OnlineUser = () => {
     return (
-        <div className="overflow-y-auto flex-1 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300">
+        <div className="overflow-y-auto flex-1 px-2 py-2 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-blue-50 [&::-webkit-scrollbar-thumb]:bg-blue-200">
             <ul>
-                {/* <li>
-                            <div className="flex justify-items-start items-center p-1 cursor-pointer border-b-[1px] border-b-gray-400">
-                                <img src={image} alt="Profile Image" width={"40px"} height={"40px"} />
-                                <div className="ml-5">
-                                    <p>Ali</p>
-                                    <p className="text-xs text-gray-400">Last Message</p>
-                                </div>
+                {users.map((user, idx) => (
+                    <li key={idx}>
+                        <div className="flex items-center gap-4 p-3 mb-2 bg-gradient-to-r from-blue-100 to-blue-50 hover:from-blue-200 hover:to-blue-100 transition cursor-pointer border-b-2 border-blue-200 rounded-xl shadow-sm">
+                            <div className="relative">
+                                <img src={image} alt="Profile" width={44} height={44} className="rounded-full border-2 border-blue-400 shadow" />
+                                <span className="absolute bottom-0 right-0 block w-3 h-3 bg-green-400 border-2 border-white rounded-full"></span>
                             </div>
-                        </li>
-                        <li>
-                            <div className="flex justify-items-start items-center p-1 cursor-pointer border-b-[1px] border-b-gray-400">
-                                <img src={image} alt="Profile Image" width={"40px"} height={"40px"} />
-                                <div className="ml-5">
-                                    <p>Hamza</p>
-                                    <p className="text-xs text-gray-400">Last Message</p>
-                                </div>
+                            <div>
+                                <p className="font-semibold text-blue-900">{user.name}</p>
+                                <p className="text-xs text-blue-500 truncate max-w-[140px]">{user.last}</p>
                             </div>
-                        </li >
-                        <li>
-                            <div className="flex justify-items-start items-center p-1 cursor-pointer border-b-[1px] border-b-gray-400">
-                                <img src={image} alt="Profile Image" width={"40px"} height={"40px"} />
-                                <div className="ml-5">
-                                    <p>Ahmed</p>
-                                    <p className="text-xs text-gray-400">Last Message</p>
-                                </div>
-                            </div>
-                        </li >
-                        <li>
-                            <div className="flex justify-items-start items-center p-1 cursor-pointer border-b-[1px] border-b-gray-400">
-                                <img src={image} alt="Profile Image" width={"40px"} height={"40px"} />
-                                <div className="ml-5">
-                                    <p>Yasir</p>
-                                    <p className="text-xs text-gray-400">Last Message</p>
-                                </div>
-                            </div>
-                        </li >
-                        <li>
-                            <div className="flex justify-items-start items-center p-1 cursor-pointer border-b-[1px] border-b-gray-400">
-                                <img src={image} alt="Profile Image" width={"40px"} height={"40px"} />
-                                <div className="ml-5">
-                                    <p>Yasir</p>
-                                    <p className="text-xs text-gray-400">Last Message</p>
-                                </div>
-                            </div>
-                        </li >
-                        <li>
-                            <div className="flex justify-items-start items-center p-1 cursor-pointer border-b-[1px] border-b-gray-400">
-                                <img src={image} alt="Profile Image" width={"40px"} height={"40px"} />
-                                <div className="ml-5">
-                                    <p>Yasir</p>
-                                    <p className="text-xs text-gray-400">Last Message</p>
-                                </div>
-                            </div>
-                        </li > */}
-                <li>
-                    <div className="flex justify-items-start items-center p-1 cursor-pointer border-b-2 border-blue-700 rounded-lg">
-                        <img src={image} alt="Profile Image" width={"40px"} height={"40px"} />
-                        <div className="ml-5">
-                            <p>Yasir</p>
-                            <p className="text-xs text-gray-400">Last Message</p>
                         </div>
-                    </div>
-                </li >
-                <li>
-                    <div className="flex justify-items-start items-center p-1 cursor-pointer border-b-2 border-blue-700 rounded-lg">
-                        <img src={image} alt="Profile Image" width={"40px"} height={"40px"} />
-                        <div className="ml-5">
-                            <p>Yasir</p>
-                            <p className="text-xs text-gray-400">Last Message</p>
-                        </div>
-                    </div>
-                </li >
-                <li>
-                    <div className="flex justify-items-start items-center p-1 cursor-pointer border-b-2 border-blue-700 rounded-lg">
-                        <img src={image} alt="Profile Image" width={"40px"} height={"40px"} />
-                        <div className="ml-5">
-                            <p>Yasir</p>
-                            <p className="text-xs text-gray-400">Last Message</p>
-                        </div>
-                    </div>
-                </li >
-                <li>
-                    <div className="flex justify-items-start items-center p-1 cursor-pointer border-b-2 border-blue-700 rounded-lg">
-                        <img src={image} alt="Profile Image" width={"40px"} height={"40px"} />
-                        <div className="ml-5">
-                            <p>Yasir</p>
-                            <p className="text-xs text-gray-400">Last Message</p>
-                        </div>
-                    </div>
-                </li >
-                <li>
-                    <div className="flex justify-items-start items-center p-1 cursor-pointer border-b-2 border-blue-700 rounded-lg">
-                        <img src={image} alt="Profile Image" width={"40px"} height={"40px"} />
-                        <div className="ml-5">
-                            <p>Yasir</p>
-                            <p className="text-xs text-gray-400">Last Message</p>
-                        </div>
-                    </div>
-                </li >
-                <li>
-                    <div className="flex justify-items-start items-center p-1 cursor-pointer border-b-2 border-blue-700 rounded-lg">
-                        <img src={image} alt="Profile Image" width={"40px"} height={"40px"} />
-                        <div className="ml-5">
-                            <p>Yasir</p>
-                            <p className="text-xs text-gray-400">Last Message</p>
-                        </div>
-                    </div>
-                </li >
-                <li>
-                    <div className="flex justify-items-start items-center p-1 cursor-pointer border-b-2 border-blue-700 rounded-lg">
-                        <img src={image} alt="Profile Image" width={"40px"} height={"40px"} />
-                        <div className="ml-5">
-                            <p>Yasir</p>
-                            <p className="text-xs text-gray-400">Last Message</p>
-                        </div>
-                    </div>
-                </li >
-            </ul >
-        </div >
+                    </li>
+                ))}
+            </ul>
+        </div>
     )
 }
 
