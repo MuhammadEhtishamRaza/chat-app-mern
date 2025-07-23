@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import ShowMoreText from 'react-show-more-text';
 
-const ChatMessage = ({ user, refresh }) => {
+const ChatMessage = ({ user }) => {
     const id = user._id;
     const [conversations, setConversations] = useState([]);
 
@@ -25,7 +25,7 @@ const ChatMessage = ({ user, refresh }) => {
             setConversations(data);
         };
         getConversations();
-    }, [id, refresh]);
+    }, [id]);
 
     const loggedUser = user._id;
 

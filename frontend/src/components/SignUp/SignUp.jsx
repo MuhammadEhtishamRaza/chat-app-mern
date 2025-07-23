@@ -1,5 +1,5 @@
 import { useActionState } from "react";
-import { FaUser, FaEnvelope, FaLock, FaVenusMars } from "react-icons/fa";
+import { FaUser, FaLock, FaVenusMars } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const SignUp = () => {
@@ -10,7 +10,6 @@ const SignUp = () => {
         fullName: formData.get("fullname"),
         username: formData.get("username"),
         gender: formData.get("gender"),
-        // email: formData.get("email"),
         password: formData.get("password"),
         confirmPassword: formData.get("confirmpassword")
       };
@@ -77,20 +76,6 @@ const SignUp = () => {
           </select>
         </div>
       </div>
-      {/* <div>
-        <label className="block text-gray-700 mb-1" htmlFor="email">Email</label>
-        <div className="flex items-center border border-gray-300 rounded-lg px-3">
-          <FaEnvelope className="text-indigo-500 mr-2" />
-          <input
-            type="email"
-            id="email"
-            placeholder="Enter your email"
-            name="email"
-            className="w-full p-2 bg-transparent focus:outline-none"
-            required
-          />
-        </div>
-      </div> */}
       <div>
         <label className="block text-gray-700 mb-1" htmlFor="password">Password</label>
         <div className="flex items-center border border-gray-300 rounded-lg px-3">

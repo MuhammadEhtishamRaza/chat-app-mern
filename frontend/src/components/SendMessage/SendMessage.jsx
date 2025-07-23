@@ -3,7 +3,7 @@ import { IoSend } from "react-icons/io5";
 import { getSocket } from "../../socket/socket";
 import { useActionState } from "react";
 
-const SendMessage = ({ receiverId, onMessageSent }) => {
+const SendMessage = ({ receiverId }) => {
     const [message, setMessage] = useState("");
 
     const sendMessageAction = async (prevState, formData) => {
@@ -26,7 +26,6 @@ const SendMessage = ({ receiverId, onMessageSent }) => {
 
         // Clear the input after sending
         setMessage("");
-        if (onMessageSent) onMessageSent();
     };
 
     const [error, submitAction, isPending] = useActionState(sendMessageAction, null);
@@ -46,7 +45,7 @@ const SendMessage = ({ receiverId, onMessageSent }) => {
             />
             <button
                 type="submit"
-                className="ml-3 p-2 rounded-full bg-blue-500 hover:bg-blue-600 transition shadow"
+                className="ml-3 p-2 rounded-full bg-blue-500 hover:bg-blue-600 transition shadow cursor-pointer"
                 disabled={isPending}
             >
                 <IoSend color="white" size={22} />
