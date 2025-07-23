@@ -2,7 +2,7 @@ import { FaSearch } from "react-icons/fa";
 
 const SearchUser = () => {
     return (
-        <div className="px-4 pt-4">
+        <div className="px-2 pt-2">
             <div className="flex items-center bg-gradient-to-r from-blue-50 to-blue-100 border-2 border-[#2266ff] p-3 rounded-xl shadow focus-within:ring-2 focus-within:ring-blue-400 transition">
                 <div className="mr-3 text-blue-600">
                     <FaSearch size={18} />

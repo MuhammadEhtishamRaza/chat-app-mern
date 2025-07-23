@@ -26,6 +26,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    bio: {
+      type: String,
+      default: "", // For existing users, bio will be empty
+    },
   },
   { timestamps: true }
 );

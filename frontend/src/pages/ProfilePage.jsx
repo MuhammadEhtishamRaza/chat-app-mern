@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { FaUser, FaEnvelope, FaVenusMars } from "react-icons/fa";
-import image from "../assets/image.svg";
+import { FaUser, FaVenusMars } from "react-icons/fa";
+// import image from "../assets/image.svg";
 
 const ProfilePage = () => {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-        // Replace with your actual endpoint for fetching user profile
         const fetchProfile = async () => {
             try {
                 const res = await fetch("http://localhost:5000/api/user/me", {
@@ -15,6 +14,8 @@ const ProfilePage = () => {
                 if (res.ok) {
                     const data = await res.json();
                     setUser(data);
+                    // console.log("Login Successful")
+                    // console.log(data);
                 }
             } catch (err) {
                 console.error("Error: ", err.message)
@@ -29,7 +30,7 @@ const ProfilePage = () => {
             <div className="bg-white rounded-3xl shadow-2xl p-10 w-full max-w-lg flex flex-col items-center">
                 <div className="relative mb-6">
                     <img
-                        src={image}
+                        src={user?.profilePic}
                         alt="Profile"
                         className="w-32 h-32 rounded-full border-4 border-blue-400 shadow-lg object-cover"
                     />
@@ -43,9 +44,9 @@ const ProfilePage = () => {
                 </p>
                 <div className="w-full space-y-4">
                     <div className="flex items-center gap-3 bg-blue-50 rounded-xl p-4 shadow">
-                        <FaEnvelope className="text-blue-500 text-xl" />
+                        <FaUser className="text-blue-500 text-xl" />
                         <span className="text-blue-900 font-medium">
-                            {user ? user.email || "No email" : ""}
+                            {user ? user.bio || "No bio provided" : ""}
                         </span>
                     </div>
                     <div className="flex items-center gap-3 bg-blue-50 rounded-xl p-4 shadow">

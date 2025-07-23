@@ -1,18 +1,18 @@
 import { FaVideo } from "react-icons/fa";
 import { FaPhoneAlt } from "react-icons/fa";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import image from "../../assets/image.svg"
 
-const TopBar = () => {
+const TopBar = ({ user }) => {
+    // console.log(user)
     return (
         <div className="col-start-1 row-span-1">
             <div className="flex justify-between items-center px-6 py-3 bg-gradient-to-r from-blue-100 to-blue-200 border-b-2 border-blue-700 shadow">
                 <div className="flex items-center">
                     <a href="#" className="mr-4">
-                        <img src={image} alt="Profile" width={48} height={48} className="rounded-full border-2 border-blue-400 shadow" />
+                        <img src={user.profilePic} alt="Profile" width={48} height={48} className="rounded-full border-2 border-blue-400 shadow" />
                     </a>
                     <div>
-                        <h2 className="text-lg font-bold text-blue-800">Ali</h2>
+                        <h2 className="text-lg font-bold text-blue-800 capitalize">{user.username}</h2>
                         <span className="text-xs text-green-500 font-medium">Online</span>
                     </div>
                 </div>
