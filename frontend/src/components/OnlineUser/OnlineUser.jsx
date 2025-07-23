@@ -43,7 +43,7 @@ const OnlineUser = ({ onUserClick }) => {
                             </div>
                             <div>
                                 <p className="font-semibold text-blue-900 capitalize">{user.username}</p>
-                                <p className="text-xs text-blue-500 truncate max-w-[140px]">
+                                <p className="text-xs text-blue-500 truncate max-w-[70px]">
                                     {user.lastMessage && user.lastMessage.content ? user.lastMessage.content : ""}
                                 </p>
                             </div>
