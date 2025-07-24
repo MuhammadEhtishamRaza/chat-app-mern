@@ -30,8 +30,10 @@ export const sendMessages = async (req, res) => {
 
     const receiverSocketId = getReceiverSocketId(receiverId);
 
+    // Change this line
     if (receiverSocketId) {
-      io.to(receiverSocketId).emit("newMessage", newMessage);
+      // Use "receiveMessage" instead of "newMessage" to match frontend
+      io.to(receiverSocketId).emit("receiveMessage", newMessage);
     }
     res.status(201).json(newMessage);
   } catch (error) {

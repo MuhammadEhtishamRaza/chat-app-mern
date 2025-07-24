@@ -15,7 +15,7 @@ const io = new Server(server, {
 });
 
 export const getReceiverSocketId = (receiverId) => {
-  return userSocketMap[receiverId];
+  return userSocketMap[receiverId] || [];
 };
 
 const userSocketMap = {};
@@ -32,6 +32,7 @@ io.on("connection", (socket) => {
 
   io.emit("getOnlineUsers", Object.keys(userSocketMap));
 
+  // Change this
   socket.on("sendMessage", ({ receiverId, content }) => {
     console.log(`Message from ${userId} to ${receiverId}: ${content}`);
     const receiverSocketId = userSocketMap[receiverId];
@@ -46,6 +47,23 @@ io.on("connection", (socket) => {
       senderId: userId,
       content,
     });
+  });
+  
+  // To this
+  socket.on("sendMessage", ({ receiverId, content }) => {
+    console.log(`Message from ${userId} to ${receiverId}: ${content}`);
+    const receiverSocketIds = userSocketMap[receiverId];
+    if (receiverSocketIds && receiverSocketIds.length > 0) {
+      // Emit to all receiver's socket connections
+      receiverSocketIds.forEach(socketId => {
+        io.to(socketId).emit("receiveMessage", {
+          senderId: userId,
+          content,
+        });
+      });
+    }
+    // Don't emit to sender here as it causes duplicate messages
+    // The message will be added to the UI when the HTTP request completes
   });
 
   socket.on("disconnect", () => {
