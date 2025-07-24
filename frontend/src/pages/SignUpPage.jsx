@@ -32,6 +32,7 @@ export default function SignupPage() {
     return (
         <div className="centered-container">
             <div className="card">
+                <div className="card-logo" aria-label="Chat App Logo" title="Chat App">💬</div>
                 <h2 style={{ color: 'var(--primary)', marginBottom: '1.5rem' }}>Sign Up</h2>
                 <form onSubmit={handleSubmit} className="form">
                     <label>Name</label>
