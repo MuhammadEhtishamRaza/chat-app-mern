@@ -36,10 +36,10 @@ const ChatMessage = ({ user }) => {
             setConversations((prev) => [...prev, message]);
         };
 
-        socket.on("sendMessage", handleReceiveMessage);
+        socket.on("receiveMessage", handleReceiveMessage);
 
         return () => {
-            socket.off("sendMessage", handleReceiveMessage);
+            socket.off("receiveMessage", handleReceiveMessage);
         };
     }, []);
 
