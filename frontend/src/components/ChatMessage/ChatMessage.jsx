@@ -32,19 +32,17 @@ const ChatMessage = ({ user }) => {
         const socket = getSocket();
         if (!socket) return;
 
-        socket.on("receiveMessage", ({ senderId, content }) => {
-            if (senderId === id || user._id === id) {
-                setConversations(prev => [
-                    ...prev,
-                    { _id: Date.now(), senderId, content }
-                ]);
-            }
-        });
+        const handleReceiveMessage = (message) => {
+            setConversations((prev) => [...prev, message]);
+        };
+
+        socket.on("sendMessage", handleReceiveMessage);
 
         return () => {
-            socket.off("receiveMessage");
+            socket.off("sendMessage", handleReceiveMessage);
         };
-    }, [id, user._id]);
+    }, []);
+
 
     // Scroll to bottom on new messages
     useEffect(() => {
