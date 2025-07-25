@@ -1,14 +1,14 @@
-import React from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Dialog from '../components/Dialog';
 
 export default function LoginPage() {
-    const [username, setUsername] = React.useState('');
-    const [password, setPassword] = React.useState('');
-    const [showPassword, setShowPassword] = React.useState(false);
-    const [loading, setLoading] = React.useState(false);
-    const [error, setError] = React.useState('');
-    const [dialogOpen, setDialogOpen] = React.useState(false);
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+    const [dialogOpen, setDialogOpen] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();

@@ -2,33 +2,22 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
-    fullName: {
+    name: {
       type: String,
       required: true,
     },
-    username: {
+    email: {
       type: String,
       required: true,
       unique: true,
-      lowercase: true,
     },
     password: {
       type: String,
       required: true,
-      minLength: 8,
-    },
-    gender: {
-      type: String,
-      required: true,
-      enum: ["male", "female"],
-    },
-    profilePic: {
-      type: String,
-      default: "",
     },
     bio: {
       type: String,
-      default: "", // For existing users, bio will be empty
+      default: "New User", 
     },
   },
   { timestamps: true }

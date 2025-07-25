@@ -1,11 +1,24 @@
 import Conversation from "../models/conversation.model.js";
 import Chat from "../models/chat.model.js";
+// import mongoose from "mongoose";
 
-export const sendMessages = async (req, res) => {
+export const sendMessage = async (req, res) => {
   try {
     const { message } = req.body;
     const { id: receiverId } = req.params;
     const senderId = req.user._id;
+
+    // if (senderId.toString() === receiverId.toString()){
+    //     return res.status(400).json({error:"You can't send messages to yourself."})
+    // }
+
+    if (!message){
+        return res.status(400).json({error:"Message is required."})
+    }
+
+    // Ensure both IDs are ObjectId
+    // const senderObjId = new mongoose.Types.ObjectId(senderId);
+    // const receiverObjId = new mongoose.Types.ObjectId(receiverId);
 
     let conversation = await Conversation.findOne({
       participants: { $all: [senderId, receiverId] },
@@ -16,10 +29,11 @@ export const sendMessages = async (req, res) => {
         participants: [senderId, receiverId],
       });
     }
+
     const newMessage = new Chat({
       senderId,
       receiverId,
-      content: message,
+      message,
     });
 
     if (newMessage) {
@@ -29,17 +43,20 @@ export const sendMessages = async (req, res) => {
 
     res.status(201).json(newMessage);
   } catch (error) {
-    console.error("Error in sendMessages controller: ", error.message);
+    console.error("Error in sendMessage controller: ", error.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
 export const getMessages = async (req, res) => {
   try {
-    const { id: usertoChatId } = req.params;
+    const { id: receiverId } = req.params;
     const senderId = req.user._id;
+    // Ensure both IDs are ObjectId
+    // const senderObjId = new mongoose.Types.ObjectId(senderId);
+    // const receiverObjId = new mongoose.Types.ObjectId(receiverId);
     const conversation = await Conversation.findOne({
-      participants: { $all: [senderId, usertoChatId] },
+      participants: { $all: [senderId, receiverId] },
     }).populate("messages");
 
     if (!conversation) {

@@ -1,12 +1,12 @@
-import React from 'react';
+import { useState } from 'react';
 import { useTheme } from '../main';
 import Dialog from '../components/Dialog';
 
 export default function ProfilePage() {
-    const [name, setName] = React.useState('John Doe');
-    const [bio, setBio] = React.useState('Hello! I love chatting.');
-    const [editing, setEditing] = React.useState(false);
-    const [dialogOpen, setDialogOpen] = React.useState(false);
+    const [name, setName] = useState('John Doe');
+    const [bio, setBio] = useState('Hello! I love chatting.');
+    const [editing, setEditing] = useState(false);
+    const [dialogOpen, setDialogOpen] = useState(false);
     const { theme, toggleTheme } = useTheme();
 
     function getInitials(name) {

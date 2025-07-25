@@ -1,5 +1,6 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import { useTheme } from '../main';
+import socket from '../socket/socket.js';
 
 const loggedInUser = { id: 0, name: 'You', email: 'you@example.com' };
 const users = [
@@ -18,11 +19,23 @@ function getInitials(name) {
     return name.split(' ').map(n => n[0]).join('').toUpperCase();
 }
 
+
 export default function ChatPage() {
-    const [input, setInput] = React.useState('');
-    const [chatMessages, setChatMessages] = React.useState(messages);
-    const [selectedUser, setSelectedUser] = React.useState(users[0]);
+    const [input, setInput] = useState('');
+    const [chatMessages, setChatMessages] = useState(messages);
+    const [selectedUser, setSelectedUser] = useState(users[0]);
     const { theme, toggleTheme } = useTheme();
+
+    useEffect(() => {
+        socket.on("connect", () => {
+            console.log("Connected to server: ", socket.id)
+            socket.emit("new-user-add", 1)
+            console.log("Connected and sent new-user-add:", 1);
+        })
+        return () => {
+            socket.off("connect")
+        }
+    }, [])
 
     const handleSend = (e) => {
         e.preventDefault();
