@@ -1,6 +1,5 @@
 import Conversation from "../models/conversation.model.js";
 import Chat from "../models/chat.model.js";
-import { getReceiverSocketId, io } from "../socket/socket.js";
 
 export const sendMessages = async (req, res) => {
   try {
@@ -28,13 +27,6 @@ export const sendMessages = async (req, res) => {
     }
     await Promise.all([newMessage.save(), conversation.save()]);
 
-    const receiverSocketId = getReceiverSocketId(receiverId);
-
-    // Change this line
-    if (receiverSocketId) {
-      // Use "receiveMessage" instead of "newMessage" to match frontend
-      io.to(receiverSocketId).emit("receiveMessage", newMessage);
-    }
     res.status(201).json(newMessage);
   } catch (error) {
     console.error("Error in sendMessages controller: ", error.message);

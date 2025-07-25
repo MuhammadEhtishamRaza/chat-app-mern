@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Dialog from '../components/Dialog';
 
 export default function LoginPage() {
-    const [email, setEmail] = React.useState('');
+    const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [showPassword, setShowPassword] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
@@ -16,7 +16,7 @@ export default function LoginPage() {
         setError('');
         setTimeout(() => {
             setLoading(false);
-            if (!email || !password) {
+            if (!username || !password) {
                 setError('Please enter both email and password.');
             } else {
                 setDialogOpen(true);
@@ -29,23 +29,27 @@ export default function LoginPage() {
             <div className="card">
                 <h2 style={{ color: 'var(--primary)', marginBottom: '1.5rem' }}>Sign In</h2>
                 <form onSubmit={handleSubmit} className="form">
-                    <label>Email</label>
+                    <label htmlFor="login-username">Email</label>
                     <input
-                        type="email"
-                        value={email}
-                        onChange={e => setEmail(e.target.value)}
-                        placeholder="Enter your email"
+                        id="login-username"
+                        type="text"
+                        value={username}
+                        onChange={e => setUsername(e.target.value)}
+                        placeholder="Enter your username"
                         autoComplete="username"
+                        name="username"
                         required
                     />
-                    <label>Password</label>
-                    <div className="password-field">
+                    <label htmlFor="login-password">Password</label>
+                    <div className="password-input-group">
                         <input
+                            id="login-password"
                             type={showPassword ? 'text' : 'password'}
                             value={password}
                             onChange={e => setPassword(e.target.value)}
                             placeholder="Enter your password"
                             autoComplete="current-password"
+                            name="password"
                             required
                         />
                         <button type="button" className="show-hide" onClick={() => setShowPassword(v => !v)}>
@@ -57,7 +61,7 @@ export default function LoginPage() {
                         {loading ? 'Logging in...' : 'Login'}
                     </button>
                 </form>
-                <Link to="/signup" className="switch-link">Don't have an account? Sign up</Link>
+                <p>Don't have an account? <Link to="/signup" className="switch-link">Sign up</Link></p>
             </div>
             <Dialog open={dialogOpen} title="Login Successful" message="You have logged in! (demo)" onClose={() => setDialogOpen(false)} />
         </div>

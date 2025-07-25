@@ -6,9 +6,12 @@ import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.route.js";
 import messageRoutes from "./routes/chat.route.js";
 import userRoutes from "./routes/user.route.js";
-import { app, server } from "./socket/socket.js";
+import http from "http";
 
 dotenv.config();
+
+const app = express();
+const server = http.createServer(app);
 
 const PORT = process.env.PORT || 5000;
 
