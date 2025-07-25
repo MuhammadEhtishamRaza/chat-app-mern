@@ -7,7 +7,7 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: "http://localhost:5173",
-    // credentials: true,
+    credentials: true,
   },
 });
 
@@ -31,9 +31,5 @@ io.on("connection", (socket) => {
     }
   });
 });
-
-// server.listen(3000, () => {
-//   console.log("Server listening on http://localhost:3000");
-// });
 
 export { app, server, io };

@@ -28,10 +28,14 @@ export default function ChatPage() {
     const { theme, toggleTheme } = useTheme();
     const LogoutNavigate = useNavigate();
 
-    const handleLogout = () => {
-        socket.disconnect()
-        console.log("Disconnected from server")
-        LogoutNavigate("/login")
+    const handleLogout = async () => {
+        const res = await fetch("http://localhost:3000/api/auth/logout")
+        const result = await res.json()
+        if (result.message == "User Logged Out Successfully.") {
+            socket.disconnect()
+            console.log("Disconnected from server")
+            LogoutNavigate("/login")
+        }
     }
 
     const handleSend = (e) => {

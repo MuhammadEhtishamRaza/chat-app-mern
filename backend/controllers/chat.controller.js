@@ -8,10 +8,6 @@ export const sendMessage = async (req, res) => {
     const { id: receiverId } = req.params;
     const senderId = req.user._id;
 
-    // if (senderId.toString() === receiverId.toString()){
-    //     return res.status(400).json({error:"You can't send messages to yourself."})
-    // }
-
     if (!message){
         return res.status(400).json({error:"Message is required."})
     }
