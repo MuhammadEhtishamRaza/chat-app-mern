@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTheme } from '../main';
 import socket from '../socket/socket.js';
+import { useNavigate } from 'react-router-dom';
 
 const loggedInUser = { id: 0, name: 'You', email: 'you@example.com' };
 const users = [
@@ -25,17 +26,13 @@ export default function ChatPage() {
     const [chatMessages, setChatMessages] = useState(messages);
     const [selectedUser, setSelectedUser] = useState(users[0]);
     const { theme, toggleTheme } = useTheme();
+    const LogoutNavigate = useNavigate();
 
-    useEffect(() => {
-        socket.on("connect", () => {
-            console.log("Connected to server: ", socket.id)
-            socket.emit("new-user-add", 1)
-            console.log("Connected and sent new-user-add:", 1);
-        })
-        return () => {
-            socket.off("connect")
-        }
-    }, [])
+    const handleLogout = () => {
+        socket.disconnect()
+        console.log("Disconnected from server")
+        LogoutNavigate("/login")
+    }
 
     const handleSend = (e) => {
         e.preventDefault();
@@ -60,7 +57,7 @@ export default function ChatPage() {
                             <span style={{ fontSize: '0.92rem', color: '#888' }}>{loggedInUser.email}</span>
                         </div>
                     </div>
-                    <button title="Logout" aria-label="Logout" style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.3rem', color: '#4f8cff', marginLeft: 4 }}>
+                    <button title="Logout" aria-label="Logout" style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.3rem', color: '#4f8cff', marginLeft: 4 }} onClick={handleLogout}>
                         🚪
                     </button>
                 </div>

@@ -10,8 +10,10 @@ export const signup = async (req, res) => {
       return res.status(400).json({ error: "All fields are required." });
     }
 
-    if (password.length<6){
-      return res.status(400).json({error:"Password must be at least 6 characters long."})
+    if (password.length < 6) {
+      return res
+        .status(400)
+        .json({ error: "Password must be at least 6 characters long." });
     }
 
     if (password !== confirmPassword) {
@@ -40,7 +42,8 @@ export const signup = async (req, res) => {
         _id: newUser._id,
         name: newUser.name,
         email: newUser.email,
-        password: newUser.password
+        password: newUser.password,
+        message: "User created successfully",
       });
     } else {
       res.status(400).json({ error: "Error Invalid User Data" });
@@ -53,7 +56,7 @@ export const signup = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
-    const {email, password } = req.body;
+    const { email, password } = req.body;
 
     if (!email || !password) {
       return res.status(400).json({ error: "All fields are required." });
@@ -74,6 +77,7 @@ export const login = async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
+      message: "Login Successful",
     });
   } catch (error) {
     console.error(`Error in Login Controller: ${error.message}`);

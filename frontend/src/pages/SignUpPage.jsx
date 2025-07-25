@@ -1,47 +1,50 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useActionState, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Dialog from '../components/Dialog';
 import './../App.css';
 
 export default function SignupPage() {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
     const [dialogOpen, setDialogOpen] = useState(false);
+    const SignUpNavigate = useNavigate();
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        setLoading(true);
-        setError('');
-        setTimeout(() => {
-            setLoading(false);
-            if (!name || !email || !password || !confirmPassword) {
-                setError('Please fill in all fields.');
-            } else if (password !== confirmPassword) {
-                setError('Passwords do not match.');
-            } else {
-                setDialogOpen(true);
+    const handleSubmit = async (previousState, formData) => {
+        const data = {
+            "name": formData.get("name"),
+            "email": formData.get("email"),
+            "password": formData.get("password"),
+            "confirmPassword": formData.get("confirmPassword")
+        }
+        const res = await fetch("http://localhost:3000/api/auth/signup", {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-type": "application/json"
             }
-        }, 1000);
+        })
+        const result = await res.json()
+        if (result.message == "User created successfully") {
+            setDialogOpen(true);
+        }
+        setTimeout(() => {
+            setDialogOpen(false);
+            SignUpNavigate("/login")
+        }, 1500)
     };
+
+    const [error, submitAction, isLoading] = useActionState(handleSubmit, null)
 
     return (
         <div className="centered-container">
             <div className="card">
                 <div className="card-logo" aria-label="Chat App Logo" title="Chat App">💬</div>
                 <h2 style={{ color: 'var(--primary)', marginBottom: '1.5rem' }}>Sign Up</h2>
-                <form onSubmit={handleSubmit} className="form">
+                <form action={submitAction} className="form">
                     <label htmlFor="signup-name">Name</label>
                     <input
                         id="signup-name"
                         type="text"
-                        value={name}
-                        onChange={e => setName(e.target.value)}
                         placeholder="Enter your name"
                         name="name"
                         required
@@ -50,10 +53,8 @@ export default function SignupPage() {
                     <input
                         id="signup-email"
                         type="email"
-                        value={email}
-                        onChange={e => setEmail(e.target.value)}
                         placeholder="Enter your email"
-                        autoComplete="username"
+                        autoComplete="email"
                         name="email"
                         required
                     />
@@ -62,8 +63,6 @@ export default function SignupPage() {
                         <input
                             id="signup-password"
                             type={showPassword ? 'text' : 'password'}
-                            value={password}
-                            onChange={e => setPassword(e.target.value)}
                             placeholder="Enter your password"
                             autoComplete="new-password"
                             name="password"
@@ -78,8 +77,6 @@ export default function SignupPage() {
                         <input
                             id="signup-confirm-password"
                             type={showConfirmPassword ? 'text' : 'password'}
-                            value={confirmPassword}
-                            onChange={e => setConfirmPassword(e.target.value)}
                             placeholder="Confirm your password"
                             autoComplete="new-password"
                             name="confirmPassword"
@@ -90,13 +87,13 @@ export default function SignupPage() {
                         </button>
                     </div>
                     {error && <div className="form-error">{error}</div>}
-                    <button type="submit" className="form-btn" disabled={loading}>
-                        {loading ? 'Signing up...' : 'Sign Up'}
+                    <button type="submit" className="form-btn" disabled={isLoading}>
+                        {isLoading ? 'Signing up...' : 'Sign Up'}
                     </button>
                 </form>
                 <p>Already have an account? <Link to="/login" className="switch-link">Login</Link></p>
             </div>
-            <Dialog open={dialogOpen} title="Signup Successful" message="Your account has been created! (demo)" onClose={() => setDialogOpen(false)} />
+            <Dialog open={dialogOpen} title="Signup Successful" message="Your account has been created successfully!" onClose={() => setDialogOpen(false)} />
         </div>
     );
 }
