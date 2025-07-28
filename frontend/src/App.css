@@ -39,6 +39,7 @@ body.dark {
   align-items: center;
   justify-content: center;
   background: var(--gradient);
+  padding: 1rem;
 }
 body.dark .centered-container {
   background: linear-gradient(135deg, #23262f 0%, #4f8cff 100%);
@@ -184,7 +185,7 @@ body.dark .form input:focus, body.dark .form textarea:focus {
   overflow: hidden;
 }
 .chat-sidebar {
-  width: 240px;
+  width: 260px;
   background: var(--glass-bg);
   border-right: 1.5px solid var(--border);
   padding: 2rem 1rem 1rem 1rem;
@@ -197,6 +198,7 @@ body.dark .form input:focus, body.dark .form textarea:focus {
   max-height: 100vh;
   overflow: hidden;
 }
+
 .chat-sidebar h3 {
   margin: 0 0 1.5rem 0;
   font-size: 1.2rem;
@@ -453,31 +455,149 @@ body.dark .form input:focus, body.dark .form textarea:focus {
   padding: 0 0.5em;
 }
 
-@media (max-width: 700px) {
-  .chat-layout {
-    flex-direction: column;
+@media screen and (max-width:768px) {
+  .card-logo{
+    width: 42px !important;
+    height: 42px !important;
+    font-size: 24px !important;
   }
+  .chat-sidebar{
+    width: 200px;
+    padding: 20px 10px 10px 10px;
+  }
+  .chat-sidebar h3{
+    margin-bottom: 16px;
+    font-size: 16px;
+  }
+  .chat-sidebar div span{
+    font-size: 12px !important;
+  }
+  .avatar{
+    width: 30px !important;
+    height: 30px !important;
+  }
+  .chat-sidebar div button{
+    padding: 0;
+    margin: 0 !important;
+  }
+  .chat-sidebar div{
+    gap:0px !important;
+  }
+  .chat-sidebar div div{
+    gap: 6px !important;
+  }
+  .chat-sidebar div div div{
+    gap:0px !important;
+  }
+  .chat-sidebar ul li div{
+    gap: 6px !important;
+    font-size: 14px !important;
+  }
+  .chat-sidebar ul li{
+    padding: 10px 12px;
+  }
+  .chat-window div p{
+    font-size: 14px;
+  }
+  .hidden-avatar{
+    font-size: 2rem !important;
+  }
+  .chat-window div{
+    font-size: 14px ;
+  }
+  .theme-toggle{
+    padding: 8px 12px;
+    top: 18px !important;
+    font-size: 12px;
+  }
+  .avatar{
+    font-size: 12px !important;
+  }
+  .top-bar{
+    padding: 16px 24px 14px !important;
+  }
+  .top-bar div span{
+    font-size: 12px !important;
+  }
+  .sender{
+    font-size: 15px;
+  }
+  .chat-input{
+    padding: 12px 8px !important;
+  }
+  .chat-input button,.chat-input input{
+    padding: 10px 16px;
+  }
+  .chat-input button,.chat-input input{
+    padding: 10px 16px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  /* Hide text elements in sidebar except the heading */
+  .chat-sidebar div div span {
+    display: none !important;
+  }
+  
+  .chat-sidebar ul li div {
+    display: none !important;
+  }
+  
+  .chat-sidebar ul li {
+    justify-content: center !important;
+    padding: 8px !important;
+  }
+  
+  /* Keep only avatars and icons visible */
+  .chat-sidebar .avatar {
+    display: flex !important;
+  }
+  
+  .chat-sidebar div button {
+    display: block !important;
+  }
+  
+  /* Adjust sidebar width for mobile */
   .chat-sidebar {
-    width: 100%;
-    flex-direction: row;
-    overflow-x: auto;
-    border-right: none;
-    border-bottom: 1.5px solid var(--border);
-    padding: 1rem 0.5rem;
-    box-shadow: none;
+    min-width: 60px !important;
+    width: 60px !important;
+    padding: 15px 5px 5px 5px !important;
   }
-  .chat-sidebar ul {
-    display: flex;
-    flex-direction: row;
-    gap: 0.5rem;
-    width: 100%;
+  
+  /* Hide "No users online" text */
+  .chat-sidebar ul li[style*="italic"] {
+    display: none !important;
   }
-  .chat-sidebar li {
-    margin-bottom: 0;
-    min-width: 100px;
+  
+  /* Keep the "Online Users" heading visible but make it smaller */
+  .chat-sidebar h3 {
+    font-size: 14px !important;
+    margin-bottom: 12px !important;
+    text-align: center !important;
+  }
+  .chat-sidebar .sender-info{
+    flex-direction: column;
+    margin-bottom: 20px !important;
+  }
+  .chat-input{
+    padding: 12px 8px !important;
+  }
+  .chat-input button,.chat-input input{
+    padding: 8px 14px;
+    font-size: 12px;
+  }
+
+  .theme-toggle {
+    min-width: 0 !important;
+    width: 36px !important;
     justify-content: center;
+    font-size: 0 !important;
+    right: 18px !important;
   }
-  .chat-window {
-    min-height: 60vh;
+  .theme-toggle::before {
+    font-size: 12px !important;
+    content: attr(data-icon);
+    display: inline-block;
+    vertical-align: middle;
   }
 }

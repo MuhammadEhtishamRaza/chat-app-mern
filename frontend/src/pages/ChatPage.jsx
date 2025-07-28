@@ -244,14 +244,18 @@ export default function ChatPage() {
 
     return (
         <div className="chat-layout">
-            <button className="theme-toggle" onClick={toggleTheme}>
+            <button
+                className="theme-toggle"
+                data-icon={theme === 'light' ? '🌙' : '☀️'}
+                onClick={toggleTheme}
+            >
                 {theme === 'light' ? '🌙 Dark' : '☀️ Light'}
             </button>
             <aside className="chat-sidebar">
                 <div className="card-logo" style={{ margin: '0 auto 1.5rem auto' }} aria-label="Chat App Logo" title="Chat App">💬</div>
                 {/* User info below logo */}
                 {loggedInUser && (
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 28, width: '100%', justifyContent: 'space-between' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 28, width: '100%', justifyContent: 'space-between' }} className='sender-info'>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                             <span className="avatar" style={{ width: 40, height: 40, fontSize: '1.2rem' }}>{getInitials(loggedInUser.name)}</span>
                             <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -297,7 +301,7 @@ export default function ChatPage() {
                 {selectedUser ? (
                     <>
                         {/* Receiver info at top */}
-                        <div style={{
+                        <div className="top-bar" style={{
                             display: 'flex',
                             alignItems: 'center',
                             gap: 18,
@@ -318,7 +322,7 @@ export default function ChatPage() {
                                     fontSize: '1rem',
                                     color: onlineUsers.includes(selectedUser.id.toString()) ? '#4CAF50' : '#888',
                                     fontWeight: 500
-                                }}>
+                                }} className='status'>
                                     {onlineUsers.includes(selectedUser.id.toString()) ? 'Online' : 'Offline'}
                                 </span>
                             </div>
@@ -365,7 +369,7 @@ export default function ChatPage() {
                         color: '#888',
                         fontSize: '1.1rem'
                     }}>
-                        <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>💬</div>
+                        <div style={{ fontSize: '4rem', marginBottom: '1rem' }} className='hidden-avatar'>💬</div>
                         <p>Select a user to start chatting</p>
                     </div>
                 )}
