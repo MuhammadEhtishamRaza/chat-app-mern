@@ -5,7 +5,7 @@ import { connectDB } from "./config/db.js";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.route.js";
 import messageRoutes from "./routes/chat.route.js";
-// import userRoutes from "./routes/user.route.js";
+import userRoutes from "./routes/user.route.js";
 import { app, server, io } from "./config/socket.js";
 
 dotenv.config();
@@ -18,11 +18,13 @@ app.use(cookieParser());
 app.use(cors({
   origin: "http://localhost:5173",
   credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 }));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/message", messageRoutes);
-// app.use("/api/user", userRoutes);
+app.use("/api/user", userRoutes);
 
 server.listen(PORT, () => {
   connectDB();
