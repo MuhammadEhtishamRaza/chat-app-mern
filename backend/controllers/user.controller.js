@@ -19,12 +19,14 @@ export const getCurrentUserData = async (req, res) => {
 export const getUsersByIds = async (req, res) => {
   try {
     const { userIds } = req.body;
-    
+
     if (!userIds || !Array.isArray(userIds)) {
       return res.status(400).json({ error: "User IDs array is required" });
     }
 
-    const users = await User.find({ _id: { $in: userIds } }).select("-password");
+    const users = await User.find({ _id: { $in: userIds } }).select(
+      "-password"
+    );
     res.status(200).json(users);
   } catch (error) {
     console.error("Error in getUsersByIds controller: ", error.message);
@@ -69,5 +71,22 @@ export const getOnlineUsers = async (req, res) => {
       error.message
     );
     res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const profileUpdate = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, bio } = req.body;
+    if (!name || !bio) {
+      return res.status(400).json({ error: "All fields are required." });
+    }
+    const user = await User.findByIdAndUpdate(id, { name, bio }, { new: true });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.status(200).json({ user, message: "Profile updated successfully" });
+  } catch (error) {
+    console.error("Error in profileUpdate controller: ", error.message);
   }
 };

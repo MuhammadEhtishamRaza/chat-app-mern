@@ -1,22 +1,78 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTheme } from '../main';
 import Dialog from '../components/Dialog';
 
 export default function ProfilePage() {
-    const [name, setName] = useState('John Doe');
-    const [bio, setBio] = useState('Hello! I love chatting.');
+    const [name, setName] = useState('');
+    const [bio, setBio] = useState('');
+    const [userId, setUserId] = useState('');
     const [editing, setEditing] = useState(false);
     const [dialogOpen, setDialogOpen] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
     const { theme, toggleTheme } = useTheme();
 
     function getInitials(name) {
         return name.split(' ').map(n => n[0]).join('').toUpperCase();
     }
 
-    const handleSave = (e) => {
+    // Fetch current user data on mount
+    useEffect(() => {
+        const fetchCurrentUser = async () => {
+            setLoading(true);
+            setError('');
+            try {
+                const response = await fetch("http://localhost:3000/api/user/me", {
+                    method: "GET",
+                    credentials: "include"
+                });
+                if (response.ok) {
+                    const userData = await response.json();
+                    setName(userData.name || '');
+                    setBio(userData.bio || '');
+                    setUserId(userData._id || '');
+                } else {
+                    setError('Failed to fetch profile data.');
+                }
+            } catch (err) {
+                setError('Error fetching profile data: ' + err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchCurrentUser();
+    }, []);
+
+    const handleSave = async (e) => {
         e.preventDefault();
-        setEditing(false);
-        setDialogOpen(true);
+        setError('');
+        setLoading(true);
+        try {
+            if (!userId) {
+                setError('User ID not found.');
+                setLoading(false);
+                return;
+            }
+            const response = await fetch(`http://localhost:3000/api/user/profile/${userId}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+                body: JSON.stringify({ name, bio })
+            });
+            if (response.ok) {
+                setEditing(false);
+                setDialogOpen(true);
+            } else {
+                const data = await response.json();
+                setError(data.error || 'Failed to update profile.');
+            }
+        } catch (err) {
+            setError('Error updating profile: ' + err);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -27,13 +83,17 @@ export default function ProfilePage() {
                 </button>
                 <div className="profile-avatar">{getInitials(name)}</div>
                 <h2 style={{ color: 'var(--primary)', marginBottom: '1.2rem' }}>Profile</h2>
-                {editing ? (
+                {loading ? (
+                    <div style={{ textAlign: 'center', margin: '1rem 0' }}>Loading...</div>
+                ) : error ? (
+                    <div style={{ color: 'red', marginBottom: '1rem' }}>{error}</div>
+                ) : editing ? (
                     <form className="form" onSubmit={handleSave}>
                         <label>Name</label>
                         <input value={name} onChange={e => setName(e.target.value)} />
                         <label>Bio</label>
                         <textarea value={bio} onChange={e => setBio(e.target.value)} rows={3} />
-                        <button type="submit" className="form-btn">Save</button>
+                        <button type="submit" className="form-btn" disabled={loading}>Save</button>
                     </form>
                 ) : (
                     <div className="profile-info">
@@ -43,7 +103,7 @@ export default function ProfilePage() {
                     </div>
                 )}
             </div>
-            <Dialog open={dialogOpen} title="Profile Updated" message="Your profile has been updated! (demo)" onClose={() => setDialogOpen(false)} />
+            <Dialog open={dialogOpen} title="Profile Updated" message="Your profile has been updated!" onClose={() => setDialogOpen(false)} />
         </div>
     );
 } 

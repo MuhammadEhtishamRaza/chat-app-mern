@@ -1,7 +1,7 @@
 /* Reset and base styles */
 body {
   margin: 0;
-  font-family: 'Segoe UI', Arial, sans-serif;
+  font-family: "Segoe UI", Arial, sans-serif;
   background: var(--bg);
   color: var(--text);
   transition: background 0.3s, color 0.3s;
@@ -13,10 +13,10 @@ body {
   --primary: #4f8cff;
   --secondary: #fff;
   --border: #e0e0e0;
-  --shadow: 0 4px 24px rgba(0,0,0,0.08);
-  --glass-bg: rgba(255,255,255,0.85);
-  --glass-bg-2: rgba(255,255,255,0.75);
-  --glass-bg-3: rgba(255,255,255,0.7);
+  --shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-bg-2: rgba(255, 255, 255, 0.75);
+  --glass-bg-3: rgba(255, 255, 255, 0.7);
   --gradient: linear-gradient(135deg, #4f8cff 0%, #a770ef 100%);
 }
 body.dark {
@@ -25,10 +25,10 @@ body.dark {
   --primary: #4f8cff;
   --secondary: #23262f;
   --border: #23262f;
-  --shadow: 0 4px 24px rgba(0,0,0,0.32);
-  --glass-bg: rgba(35,38,47,0.85);
-  --glass-bg-2: rgba(35,38,47,0.75);
-  --glass-bg-3: rgba(35,38,47,0.7);
+  --shadow: 0 4px 24px rgba(0, 0, 0, 0.32);
+  --glass-bg: rgba(35, 38, 47, 0.85);
+  --glass-bg-2: rgba(35, 38, 47, 0.75);
+  --glass-bg-3: rgba(35, 38, 47, 0.7);
   --gradient: linear-gradient(135deg, #23262f 0%, #4f8cff 100%);
 }
 
@@ -44,12 +44,16 @@ body.dark {
 body.dark .centered-container {
   background: linear-gradient(135deg, #23262f 0%, #4f8cff 100%);
 }
+a {
+  text-decoration: none;
+}
 
 .card {
-  background: rgba(255,255,255,0.85);
+  background: rgba(255, 255, 255, 0.85);
   color: var(--text);
   border-radius: 24px;
-  box-shadow: 0 8px 32px rgba(79,140,255,0.18), 0 1.5px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 8px 32px rgba(79, 140, 255, 0.18),
+    0 1.5px 8px rgba(0, 0, 0, 0.08);
   padding: 2.8rem 2.2rem 2.2rem 2.2rem;
   min-width: 350px;
   max-width: 95vw;
@@ -58,12 +62,18 @@ body.dark .centered-container {
   flex-direction: column;
   align-items: center;
   backdrop-filter: blur(16px) saturate(160%);
-  border: 1.5px solid rgba(79,140,255,0.18);
-  animation: card-pop 0.4s cubic-bezier(.4,2,.6,1) both;
+  border: 1.5px solid rgba(79, 140, 255, 0.18);
+  animation: card-pop 0.4s cubic-bezier(0.4, 2, 0.6, 1) both;
 }
 @keyframes card-pop {
-  0% { transform: translateY(40px) scale(0.95); opacity: 0; }
-  100% { transform: translateY(0) scale(1); opacity: 1; }
+  0% {
+    transform: translateY(40px) scale(0.95);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
 }
 
 .card-logo {
@@ -75,14 +85,14 @@ body.dark .centered-container {
   align-items: center;
   justify-content: center;
   margin-bottom: 1.2rem;
-  box-shadow: 0 2px 8px rgba(79,140,255,0.12);
+  box-shadow: 0 2px 8px rgba(79, 140, 255, 0.12);
   font-size: 2rem;
   color: #fff;
 }
 body.dark .card {
-  background: rgba(35,38,47,0.85);
+  background: rgba(35, 38, 47, 0.85);
   color: #f4f4f4;
-  border: 1.5px solid rgba(79,140,255,0.28);
+  border: 1.5px solid rgba(79, 140, 255, 0.28);
 }
 
 .form {
@@ -96,27 +106,31 @@ body.dark .card {
   margin-bottom: 0.25rem;
 }
 
-.form input, .form textarea {
+.form input,
+.form textarea {
   padding: 1rem 1.1rem;
   border: 1.5px solid var(--border);
   border-radius: 10px;
   font-size: 1.08rem;
-  background: rgba(255,255,255,0.7);
+  background: rgba(255, 255, 255, 0.7);
   color: var(--text);
   outline: none;
   transition: border 0.2s, box-shadow 0.2s, background 0.2s;
-  box-shadow: 0 1.5px 8px rgba(79,140,255,0.04);
+  box-shadow: 0 1.5px 8px rgba(79, 140, 255, 0.04);
 }
-body.dark .form input, body.dark .form textarea {
-  background: rgba(35,38,47,0.7);
+body.dark .form input,
+body.dark .form textarea {
+  background: rgba(35, 38, 47, 0.7);
   color: #f4f4f4;
 }
-.form input:focus, .form textarea:focus {
+.form input:focus,
+.form textarea:focus {
   border-color: var(--primary);
   box-shadow: 0 0 0 2px #4f8cff33;
   background: #eaf1ff;
 }
-body.dark .form input:focus, body.dark .form textarea:focus {
+body.dark .form input:focus,
+body.dark .form textarea:focus {
   background: #23262f;
 }
 .password-field {
@@ -143,7 +157,7 @@ body.dark .form input:focus, body.dark .form textarea:focus {
   cursor: pointer;
   margin-top: 0.5rem;
   transition: background 0.2s, box-shadow 0.2s, transform 0.12s;
-  box-shadow: 0 2px 12px rgba(79,140,255,0.12);
+  box-shadow: 0 2px 12px rgba(79, 140, 255, 0.12);
 }
 .form-btn:active {
   transform: scale(0.97);
@@ -192,7 +206,7 @@ body.dark .form input:focus, body.dark .form textarea:focus {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  box-shadow: 2px 0 8px rgba(0,0,0,0.03);
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.03);
   backdrop-filter: blur(12px) saturate(160%);
   height: 100vh;
   max-height: 100vh;
@@ -237,7 +251,8 @@ body.dark .form input:focus, body.dark .form textarea:focus {
   margin-bottom: 0.5rem;
   transition: background 0.18s, color 0.18s;
 }
-.chat-sidebar li.active, .chat-sidebar li:hover {
+.chat-sidebar li.active,
+.chat-sidebar li:hover {
   background: var(--primary);
   color: #fff;
 }
@@ -260,7 +275,7 @@ body.dark .form input:focus, body.dark .form textarea:focus {
   flex-direction: column;
   background: var(--glass-bg-2);
   position: relative;
-  box-shadow: 0 2px 16px rgba(79,140,255,0.08);
+  box-shadow: 0 2px 16px rgba(79, 140, 255, 0.08);
   backdrop-filter: blur(8px) saturate(140%);
 }
 .chat-messages {
@@ -290,7 +305,7 @@ body.dark .form input:focus, body.dark .form textarea:focus {
   background: var(--secondary);
   color: var(--text);
   align-self: flex-start;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   position: relative;
   word-break: break-word;
 }
@@ -358,7 +373,7 @@ body.dark .form input:focus, body.dark .form textarea:focus {
   cursor: pointer;
   font-size: 1rem;
   color: var(--primary);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   transition: background 0.3s, color 0.3s, border 0.3s;
   display: flex;
   align-items: center;
@@ -391,8 +406,11 @@ body.dark .form input:focus, body.dark .form textarea:focus {
 /* Dialog modal styles */
 .dialog-backdrop {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.25);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.25);
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -402,16 +420,22 @@ body.dark .form input:focus, body.dark .form textarea:focus {
   background: var(--secondary);
   color: var(--text);
   border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
   padding: 2rem 2.5rem;
   min-width: 300px;
   max-width: 90vw;
   text-align: center;
-  animation: dialog-pop 0.18s cubic-bezier(.4,2,.6,1) both;
+  animation: dialog-pop 0.18s cubic-bezier(0.4, 2, 0.6, 1) both;
 }
 @keyframes dialog-pop {
-  0% { transform: scale(0.85); opacity: 0; }
-  100% { transform: scale(1); opacity: 1; }
+  0% {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 .dialog-title {
   margin: 0 0 1rem 0;
@@ -455,80 +479,82 @@ body.dark .form input:focus, body.dark .form textarea:focus {
   padding: 0 0.5em;
 }
 
-@media screen and (max-width:768px) {
-  .card-logo{
+@media screen and (max-width: 768px) {
+  .card-logo {
     width: 42px !important;
     height: 42px !important;
     font-size: 24px !important;
   }
-  .chat-sidebar{
+  .chat-sidebar {
     width: 200px;
     padding: 20px 10px 10px 10px;
   }
-  .chat-sidebar h3{
+  .chat-sidebar h3 {
     margin-bottom: 16px;
     font-size: 16px;
   }
-  .chat-sidebar div span{
+  .chat-sidebar div span {
     font-size: 12px !important;
   }
-  .avatar{
+  .avatar {
     width: 30px !important;
     height: 30px !important;
   }
-  .chat-sidebar div button{
+  .chat-sidebar div button {
     padding: 0;
     margin: 0 !important;
   }
-  .chat-sidebar div{
-    gap:0px !important;
+  .chat-sidebar div {
+    gap: 0px !important;
   }
-  .chat-sidebar div div{
+  .chat-sidebar div div {
     gap: 6px !important;
   }
-  .chat-sidebar div div div{
-    gap:0px !important;
+  .chat-sidebar div div div {
+    gap: 0px !important;
   }
-  .chat-sidebar ul li div{
+  .chat-sidebar ul li div {
     gap: 6px !important;
     font-size: 14px !important;
   }
-  .chat-sidebar ul li{
+  .chat-sidebar ul li {
     padding: 10px 12px;
   }
-  .chat-window div p{
+  .chat-window div p {
     font-size: 14px;
   }
-  .hidden-avatar{
+  .hidden-avatar {
     font-size: 2rem !important;
   }
-  .chat-window div{
-    font-size: 14px ;
+  .chat-window div {
+    font-size: 14px;
   }
-  .theme-toggle{
+  .theme-toggle {
     padding: 8px 12px;
     top: 18px !important;
     font-size: 12px;
   }
-  .avatar{
+  .avatar {
     font-size: 12px !important;
   }
-  .top-bar{
+  .top-bar {
     padding: 16px 24px 14px !important;
   }
-  .top-bar div span{
+  .top-bar div span {
     font-size: 12px !important;
   }
-  .sender{
+  .sender {
     font-size: 15px;
   }
-  .chat-input{
+  .chat-input {
     padding: 12px 8px !important;
   }
-  .chat-input button,.chat-input input{
+  .chat-input button,
+  .chat-input input {
     padding: 10px 16px;
   }
-  .chat-input button,.chat-input input{
+  .chat-input button,
+  .chat-input input {
     padding: 10px 16px;
   }
 }
@@ -538,51 +564,52 @@ body.dark .form input:focus, body.dark .form textarea:focus {
   .chat-sidebar div div span {
     display: none !important;
   }
-  
+
   .chat-sidebar ul li div {
     display: none !important;
   }
-  
+
   .chat-sidebar ul li {
     justify-content: center !important;
     padding: 8px !important;
   }
-  
+
   /* Keep only avatars and icons visible */
   .chat-sidebar .avatar {
     display: flex !important;
   }
-  
+
   .chat-sidebar div button {
     display: block !important;
   }
-  
+
   /* Adjust sidebar width for mobile */
   .chat-sidebar {
     min-width: 60px !important;
     width: 60px !important;
     padding: 15px 5px 5px 5px !important;
   }
-  
+
   /* Hide "No users online" text */
   .chat-sidebar ul li[style*="italic"] {
     display: none !important;
   }
-  
+
   /* Keep the "Online Users" heading visible but make it smaller */
   .chat-sidebar h3 {
     font-size: 14px !important;
     margin-bottom: 12px !important;
     text-align: center !important;
   }
-  .chat-sidebar .sender-info{
+  .chat-sidebar .sender-info {
     flex-direction: column;
     margin-bottom: 20px !important;
   }
-  .chat-input{
+  .chat-input {
     padding: 12px 8px !important;
   }
-  .chat-input button,.chat-input input{
+  .chat-input button,
+  .chat-input input {
     padding: 8px 14px;
     font-size: 12px;
   }

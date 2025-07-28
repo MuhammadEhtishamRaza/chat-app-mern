@@ -257,7 +257,7 @@ export default function ChatPage() {
                 {loggedInUser && (
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 28, width: '100%', justifyContent: 'space-between' }} className='sender-info'>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                            <span className="avatar" style={{ width: 40, height: 40, fontSize: '1.2rem' }}>{getInitials(loggedInUser.name)}</span>
+                            <a href="/profile"><span className="avatar" style={{ width: 40, height: 40, fontSize: '1.2rem' }}>{getInitials(loggedInUser.name)}</span></a>
                             <div style={{ display: 'flex', flexDirection: 'column' }}>
                                 <span style={{ fontWeight: 600 }}>{loggedInUser.name}</span>
                                 <span style={{ fontSize: '0.92rem', color: '#888' }}>{loggedInUser.email}</span>
