@@ -13,7 +13,7 @@ export default function LoginPage() {
             email: formData.get("email"),
             password: formData.get("password")
         }
-        const res = await fetch("http://localhost:3000/api/auth/login", {
+        const res = await fetch("http://localhost:5000/api/auth/login", {
             method: "POST",
             body: JSON.stringify(data),
             headers: {

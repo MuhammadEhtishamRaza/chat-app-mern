@@ -22,7 +22,7 @@ export default function ProfilePage() {
             setLoading(true);
             setError('');
             try {
-                const response = await fetch("http://localhost:3000/api/user/me", {
+                const response = await fetch("http://localhost:5000/api/user/me", {
                     method: "GET",
                     credentials: "include"
                 });
@@ -53,7 +53,7 @@ export default function ProfilePage() {
                 setLoading(false);
                 return;
             }
-            const response = await fetch(`http://localhost:3000/api/user/profile/${userId}`, {
+            const response = await fetch(`http://localhost:5000/api/user/profile/${userId}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

@@ -20,7 +20,7 @@ export default function ChatPage() {
     // Function to fetch current user data
     const fetchCurrentUser = async () => {
         try {
-            const response = await fetch("http://localhost:3000/api/user/me", {
+            const response = await fetch("http://localhost:5000/api/user/me", {
                 method: "GET",
                 credentials: "include"
             });
@@ -42,7 +42,7 @@ export default function ChatPage() {
     // Function to fetch user data by IDs
     const fetchUsersByIds = async (userIds) => {
         try {
-            const response = await fetch("http://localhost:3000/api/user/users-by-ids", {
+            const response = await fetch("http://localhost:5000/api/user/users-by-ids", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -67,7 +67,7 @@ export default function ChatPage() {
     // Function to fetch messages for a conversation
     const fetchMessages = async (receiverId) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/message/${receiverId}`, {
+            const response = await fetch(`http://localhost:5000/api/message/${receiverId}`, {
                 method: "GET",
                 credentials: "include"
             });
@@ -88,7 +88,7 @@ export default function ChatPage() {
     // Function to send a message
     const sendMessage = async (message, receiverId) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/message/send/${receiverId}`, {
+            const response = await fetch(`http://localhost:5000/api/message/send/${receiverId}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -157,7 +157,7 @@ export default function ChatPage() {
     }, [selectedUser, loggedInUser]);
 
     const handleLogout = async () => {
-        const res = await fetch("http://localhost:3000/api/auth/logout", {
+        const res = await fetch("http://localhost:5000/api/auth/logout", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
