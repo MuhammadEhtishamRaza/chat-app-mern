@@ -35,6 +35,7 @@ export default function LoginPage() {
                 })
             }
             setDialogOpen(true);
+            sessionStorage.setItem('token', result.token);
             setTimeout(() => {
                 setDialogOpen(false);
                 LoginNavigate("/chat")

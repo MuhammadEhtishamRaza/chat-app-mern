@@ -1,4 +1,4 @@
-import { useActionState, useEffect, useState } from 'react';
+import { useActionState, useEffect, useState, useRef } from 'react';
 import { useTheme } from '../main';
 import socket from '../socket/socket.js';
 import { useNavigate } from 'react-router-dom';
@@ -13,16 +13,42 @@ export default function ChatPage() {
     const [selectedUser, setSelectedUser] = useState(null);
     const [onlineUsers, setOnlineUsers] = useState([]);
     const [onlineUsersData, setOnlineUsersData] = useState([]);
+    const [allUsersData, setAllUsersData] = useState([]);
+    const [pendingOnlineUsers, setPendingOnlineUsers] = useState([]);
     const { theme, toggleTheme } = useTheme();
     const [loggedInUser, setLoggedInUser] = useState(null);
     const LogoutNavigate = useNavigate();
+    const messagesContainerRef = useRef(null);
+
+    const scrollToBottom = () => {
+        if (messagesContainerRef.current) {
+            // Add smooth scrolling behavior temporarily
+            messagesContainerRef.current.style.scrollBehavior = 'smooth';
+            messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+            // Reset scroll behavior after animation
+            setTimeout(() => {
+                if (messagesContainerRef.current) {
+                    messagesContainerRef.current.style.scrollBehavior = 'auto';
+                }
+            }, 500);
+        }
+    };
 
     // Function to fetch current user data
     const fetchCurrentUser = async () => {
         try {
+            const token = sessionStorage.getItem('token');
+            console.log("Sending token:", token);
+
             const response = await fetch("http://localhost:5000/api/user/me", {
                 method: "GET",
-                credentials: "include"
+                // credentials: "include"
+                // method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${sessionStorage.getItem('token')}`,
+                },
+                // body: JSON.stringify({ message }),
             });
 
             if (response.ok) {
@@ -46,9 +72,10 @@ export default function ChatPage() {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${sessionStorage.getItem('token')}`,
                 },
                 body: JSON.stringify({ userIds }),
-                credentials: "include"
+                // credentials: "include"
             });
 
             if (response.ok) {
@@ -64,12 +91,40 @@ export default function ChatPage() {
         }
     };
 
+    // Function to fetch all users
+    const fetchAllUsers = async () => {
+        try {
+            const response = await fetch("http://localhost:5000/api/user/users", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${sessionStorage.getItem('token')}`,
+                },
+            });
+
+            if (response.ok) {
+                const usersData = await response.json();
+                return usersData;
+            } else {
+                console.error("Failed to fetch all users");
+                return [];
+            }
+        } catch (error) {
+            console.error("Error fetching all users:", error);
+            return [];
+        }
+    };
+
     // Function to fetch messages for a conversation
     const fetchMessages = async (receiverId) => {
         try {
             const response = await fetch(`http://localhost:5000/api/message/${receiverId}`, {
                 method: "GET",
-                credentials: "include"
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${sessionStorage.getItem('token')}`,
+                },
+                // credentials: "include"
             });
 
             if (response.ok) {
@@ -92,9 +147,10 @@ export default function ChatPage() {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${sessionStorage.getItem('token')}`,
                 },
                 body: JSON.stringify({ message }),
-                credentials: "include"
+                // credentials: "include"
             });
 
             if (response.ok) {
@@ -113,34 +169,82 @@ export default function ChatPage() {
     useEffect(() => {
         // Fetch current user data and then emit socket event
         const initializeUser = async () => {
+            console.log('Initializing user...');
             const userData = await fetchCurrentUser();
             if (userData) {
+                console.log('User data fetched:', userData);
                 // Emit new user add event with the actual user ID
                 socket.emit("new-user-add", userData._id);
+                console.log('New user add event emitted for:', userData._id);
             }
         };
 
         initializeUser();
 
+        // Fetch all users initially
+        const loadAllUsers = async () => {
+            console.log('Loading all users...');
+            const allUsers = await fetchAllUsers();
+            console.log('All users loaded:', allUsers);
+            setAllUsersData(allUsers);
+        };
+        loadAllUsers();
+
         // Listen for online users updates
-        socket.on("online-users", async (onlineUsersList) => {
-            console.log("Online users:", onlineUsersList);
+        const handleOnlineUsers = (onlineUsersList) => {
+            console.log("Socket received online users:", onlineUsersList);
             setOnlineUsers(onlineUsersList);
 
-            // Fetch user data for online users
-            if (onlineUsersList.length > 0) {
-                const usersData = await fetchUsersByIds(onlineUsersList);
-                setOnlineUsersData(usersData);
-            } else {
-                setOnlineUsersData([]);
+            // If allUsersData is not loaded yet, store these as pending
+            if (allUsersData.length === 0) {
+                console.log('Storing online users as pending:', onlineUsersList);
+                setPendingOnlineUsers(onlineUsersList);
             }
-        });
+        };
+
+        socket.on("online-users", handleOnlineUsers);
+
+        // Request online users after a short delay to ensure socket is ready
+        setTimeout(() => {
+            console.log('Requesting online users...');
+            socket.emit("get-online-users");
+        }, 1000);
 
         // Cleanup on unmount
         return () => {
-            socket.off("online-users");
+            socket.off("online-users", handleOnlineUsers);
         };
     }, [])
+
+    // Update online users data when allUsersData or onlineUsers change
+    useEffect(() => {
+        console.log('useEffect triggered - allUsersData length:', allUsersData.length, 'onlineUsers length:', onlineUsers.length);
+        console.log('allUsersData:', allUsersData);
+        console.log('onlineUsers:', onlineUsers);
+        console.log('pendingOnlineUsers:', pendingOnlineUsers);
+
+        if (allUsersData.length > 0) {
+            // Use pending online users if available, otherwise use current onlineUsers
+            const usersToProcess = pendingOnlineUsers.length > 0 ? pendingOnlineUsers : onlineUsers;
+
+            if (usersToProcess.length > 0) {
+                const onlineUsersData = allUsersData.filter(user =>
+                    usersToProcess.includes(user._id.toString())
+                );
+                console.log('Filtered online users data:', onlineUsersData);
+                setOnlineUsersData(onlineUsersData);
+
+                // Clear pending users after processing
+                if (pendingOnlineUsers.length > 0) {
+                    setPendingOnlineUsers([]);
+                }
+            } else {
+                // If no online users, clear the online users data
+                console.log('No online users, clearing onlineUsersData');
+                setOnlineUsersData([]);
+            }
+        }
+    }, [allUsersData, onlineUsers, pendingOnlineUsers]);
 
     // Fetch messages when selectedUser changes
     useEffect(() => {
@@ -156,6 +260,11 @@ export default function ChatPage() {
         }
     }, [selectedUser, loggedInUser]);
 
+    // Scroll to bottom when messages change
+    useEffect(() => {
+        scrollToBottom();
+    }, [chatMessages]);
+
     const handleLogout = async () => {
         const res = await fetch("http://localhost:5000/api/auth/logout", {
             method: "POST",
@@ -165,6 +274,7 @@ export default function ChatPage() {
         })
         const result = await res.json()
         if (result.message == "User Logged Out Successfully.") {
+            sessionStorage.removeItem("token")
             socket.disconnect()
             console.log("Disconnected from server")
             LogoutNavigate("/login")
@@ -269,7 +379,7 @@ export default function ChatPage() {
                     </div>
                 )}
                 <h3>Online Users</h3>
-                <ul>
+                <ul className="online-users-list">
                     {onlineUsersData.length > 0 ? (
                         onlineUsersData
                             .filter(user => user._id !== loggedInUser?._id)
@@ -294,6 +404,41 @@ export default function ChatPage() {
                             ))
                     ) : (
                         <li style={{ color: '#888', fontStyle: 'italic' }}>No users online</li>
+                    )}
+                </ul>
+
+                <h3 style={{ marginTop: '2rem', marginBottom: '1rem' }}>Offline Users</h3>
+                <ul className="offline-users-list">
+                    {allUsersData.length > 0 ? (
+                        allUsersData
+                            .filter(user => user._id !== loggedInUser?._id && !onlineUsers.includes(user._id.toString()))
+                            .map(user => (
+                                <li
+                                    key={user._id}
+                                    className={selectedUser && user._id === selectedUser.id ? 'active' : ''}
+                                    // onClick={() => setSelectedUser({ id: user._id, name: user.name, email: user.email })}
+                                    style={{
+                                        opacity: 0.6,
+                                        cursor: 'pointer',
+                                        filter: 'grayscale(0.3)'
+                                    }}
+                                    disabled
+                                >
+                                    <span className="avatar" style={{ opacity: 0.7 }}>{getInitials(user.name)}</span>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                        {user.name}
+                                        <span style={{
+                                            width: 8,
+                                            height: 8,
+                                            borderRadius: '50%',
+                                            backgroundColor: '#888',
+                                            display: 'inline-block'
+                                        }} title="Offline"></span>
+                                    </div>
+                                </li>
+                            ))
+                    ) : (
+                        <li style={{ color: '#888', fontStyle: 'italic' }}>No offline users</li>
                     )}
                 </ul>
             </aside>
@@ -327,7 +472,7 @@ export default function ChatPage() {
                                 </span>
                             </div>
                         </div>
-                        <div className="chat-messages">
+                        <div className="chat-messages" ref={messagesContainerRef}>
                             {chatMessages.map(msg => {
                                 const isOwnMessage = msg.senderId === loggedInUser?._id;
                                 return (
