@@ -1,6 +1,9 @@
 import express from "express";
 import { signup, login, logout } from "../controllers/auth.controller.js";
 import protectRoute from "../middlewares/protectRoute.middleware.js";
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
 
 const router = express.Router();
 

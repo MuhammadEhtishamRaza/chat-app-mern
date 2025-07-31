@@ -3,18 +3,17 @@ import User from "../models/user.model.js";
 
 const protectRoute = async (req, res, next) => {
   try {
-    const token = req.cookies.jwt;
-    if (!token) {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return res
         .status(401)
         .json({ error: "Unauthorized - No Token Provided" });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const token = authHeader.split(" ")[1]; // Get token after 'Bearer '
 
-    if (!decoded) {
-      return res.status(401).json({ error: "Unauthorized - Invalid Token" });
-    }
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     const user = await User.findById(decoded.userId).select("-password");
 
@@ -26,7 +25,7 @@ const protectRoute = async (req, res, next) => {
 
     next();
   } catch (error) {
-    console.error(`Error in protectRoute middleware: `, error.message);
+    console.error(`Error in protectRoute middleware:`, error.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
