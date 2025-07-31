@@ -1,6 +1,9 @@
 import bcrypt from "bcryptjs";
 import { generateTokenandSetCookie } from "../config/generateToken.js";
 import User from "../models/user.model.js";
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
 
 export const signup = async (req, res) => {
   try {
@@ -71,13 +74,15 @@ export const login = async (req, res) => {
     if (!user || !isPasswordCorrect) {
       return res.status(400).json({ error: "Invalid username or password" });
     }
-    generateTokenandSetCookie(user._id, res);
+    const token = generateTokenandSetCookie(user._id, res);
+    console.log(token);
 
     res.status(200).json({
       _id: user._id,
       name: user.name,
       email: user.email,
       message: "Login Successful",
+      token: token,
     });
   } catch (error) {
     console.error(`Error in Login Controller: ${error.message}`);
@@ -87,7 +92,7 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
   try {
-    res.cookie("jwt", "", { maxAge: 0 });
+    // res.cookie("jwt", "", { maxAge: 0 });
     res.status(200).json({ message: "User Logged Out Successfully." });
   } catch (error) {
     console.error(`Error in Logout Controller: ${error.message}`);

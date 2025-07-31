@@ -202,43 +202,82 @@ body.dark .form textarea:focus {
   width: 260px;
   background: var(--glass-bg);
   border-right: 1.5px solid var(--border);
-  padding: 2rem 1rem 1rem 1rem;
+  padding: 2rem 1.5rem;
+  backdrop-filter: blur(16px) saturate(160%);
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.03);
-  backdrop-filter: blur(12px) saturate(160%);
   height: 100vh;
-  max-height: 100vh;
-  overflow: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) var(--glass-bg-2);
 }
-
+.chat-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+.chat-sidebar::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 6px;
+}
+.chat-sidebar::-webkit-scrollbar-track {
+  background: var(--glass-bg-2);
+}
 .chat-sidebar h3 {
-  margin: 0 0 1.5rem 0;
-  font-size: 1.2rem;
+  margin-bottom: 1rem;
   color: var(--primary);
+  font-weight: 600;
 }
 .chat-sidebar ul {
   list-style: none;
   padding: 0;
   margin: 0;
-  width: 100%;
-  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   overflow-y: auto;
-  max-height: calc(100vh - 220px);
-  /* Adjust for logo, user info, and h3 */
   scrollbar-width: thin;
-  scrollbar-color: var(--primary) var(--glass-bg);
+  scrollbar-color: var(--primary) var(--glass-bg-2);
 }
 .chat-sidebar ul::-webkit-scrollbar {
-  width: 7px;
+  width: 6px;
 }
 .chat-sidebar ul::-webkit-scrollbar-thumb {
   background: var(--primary);
-  border-radius: 8px;
+  border-radius: 6px;
 }
 .chat-sidebar ul::-webkit-scrollbar-track {
-  background: var(--glass-bg);
+  background: var(--glass-bg-2);
+}
+.offline-users-list {
+  max-height: 100px; /* Reduced height for approximately 2 users */
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) var(--glass-bg-2);
+}
+.offline-users-list::-webkit-scrollbar {
+  width: 6px;
+}
+.offline-users-list::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 6px;
+}
+.offline-users-list::-webkit-scrollbar-track {
+  background: var(--glass-bg-2);
+}
+.online-users-list {
+  max-height: 100px; /* Reduced height for approximately 2 users */
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) var(--glass-bg-2);
+}
+.online-users-list::-webkit-scrollbar {
+  width: 6px;
+}
+.online-users-list::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 6px;
+}
+.online-users-list::-webkit-scrollbar-track {
+  background: var(--glass-bg-2);
 }
 .chat-sidebar li {
   display: flex;
