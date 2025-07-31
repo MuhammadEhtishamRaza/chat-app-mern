@@ -1,17 +1,35 @@
 import express from "express";
 import http from "http";
 import { Server } from "socket.io";
+import jwt from "jsonwebtoken";
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: "http://localhost:5173",
-    credentials: true,
+    // credentials: true,
   },
 });
 
 const OnlineUsers = {};
+
+io.use((socket, next) => {
+  const token = socket.handshake.auth.token;
+
+  if (!token) {
+    return next(new Error("Authentication error: No token provided"));
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    socket.userId = decoded.userId;
+    next();
+  } catch (err) {
+    console.error("JWT verification failed:", err.message);
+    next(new Error("Authentication error: Invalid token"));
+  }
+});
 
 io.on("connection", (socket) => {
   console.log("A user connected:", socket.id);
