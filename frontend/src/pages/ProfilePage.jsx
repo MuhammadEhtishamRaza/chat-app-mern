@@ -24,7 +24,11 @@ export default function ProfilePage() {
             try {
                 const response = await fetch("http://localhost:5000/api/user/me", {
                     method: "GET",
-                    credentials: "include"
+                    // credentials: "include"
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${sessionStorage.getItem('token')}`,
+                    },
                 });
                 if (response.ok) {
                     const userData = await response.json();
@@ -57,8 +61,9 @@ export default function ProfilePage() {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${sessionStorage.getItem('token')}`,
                 },
-                credentials: "include",
+                // credentials: "include",
                 body: JSON.stringify({ name, bio })
             });
             if (response.ok) {

@@ -4,8 +4,8 @@
   "description": "Chatting App",
   "main": "server.js",
   "scripts": {
-    "build": "npm install",
-    "dev": "nodemon server.js"
+    "build": "node api.js && npm install",
+    "dev": "node api.js && nodemon server.js"
   },
   "keywords": [],
   "author": "Muhammad Ehtisham Raza",
